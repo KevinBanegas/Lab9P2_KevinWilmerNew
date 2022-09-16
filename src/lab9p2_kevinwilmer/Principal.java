@@ -5,6 +5,9 @@
  */
 package lab9p2_kevinwilmer;
 
+import DataBase.Dba;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Usuario
@@ -70,12 +73,18 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        button_generar.setText("jToggleButton1");
+        button_generar.setText("Generar");
         jPanel1.add(button_generar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 140, -1));
 
-        button_ejecutar.setText("jToggleButton2");
+        button_ejecutar.setText("Ejecutar");
+        button_ejecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_ejecutarActionPerformed(evt);
+            }
+        });
         jPanel1.add(button_ejecutar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 140, -1));
 
+        cb_query.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Crear", "Modificar", "Eliminar", "Seleccionar" }));
         jPanel1.add(cb_query, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 140, -1));
 
         jLabel1.setText("Nombre");
@@ -274,6 +283,32 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
+    private void button_ejecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ejecutarActionPerformed
+//hace alguna kkk del crud
+        if ((cb_query.getSelectedItem().toString()).equals("Crear")) {
+            Dba bd = new Dba("./BaseDatosLab9P2_KevinWilmer.accdb");
+            bd.conectar();
+            try {
+                bd.query.execute("insert into Juego (Categoria, Costo, Nombre)"
+                        + "VALUES ('" + categoriaOld.getText() + "', '" + Integer.parseInt(costoOld.getText()) + "', '" + nombreOld.getText()+ "')");
+                bd.commit();
+
+                JOptionPane.showMessageDialog(this, "Juego Registrado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            bd.desconectar();
+        } else if ((cb_query.getSelectedItem().toString()).equals("Modificar")) {
+
+        } else if ((cb_query.getSelectedItem().toString()).equals("Eliminar")) {
+
+        } else if ((cb_query.getSelectedItem().toString()).equals("Seleccionar")) {
+
+        }
+
+
+    }//GEN-LAST:event_button_ejecutarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -308,480 +343,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-    /*
-        KEVIN
-        
-        
-        NO PASAR JAMAS PENDEJOS
-        
-        
-        WILMER 
-     */
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton button_ejecutar;
