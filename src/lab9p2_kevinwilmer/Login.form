@@ -188,11 +188,11 @@
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jTextField2" min="-2" pref="270" max="-2" attributes="0"/>
+                      <Component id="usuarioLogin" min="-2" pref="270" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" pref="80" max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" pref="270" max="-2" attributes="0"/>
-                      <Component id="jToggleButton1" min="-2" pref="266" max="-2" attributes="0"/>
-                      <Component id="jToggleButton2" min="-2" pref="266" max="-2" attributes="0"/>
+                      <Component id="contraLogin" min="-2" pref="270" max="-2" attributes="0"/>
+                      <Component id="buttonIngresar" min="-2" pref="266" max="-2" attributes="0"/>
+                      <Component id="buttonRegistro" min="-2" pref="266" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
               </Group>
@@ -210,15 +210,15 @@
                       <Component id="jLabel1" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
-                  <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
+                  <Component id="usuarioLogin" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="16" pref="16" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" pref="20" max="-2" attributes="0"/>
                   <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
-                  <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
+                  <Component id="contraLogin" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="19" pref="19" max="-2" attributes="0"/>
-                  <Component id="jToggleButton1" min="-2" pref="48" max="-2" attributes="0"/>
+                  <Component id="buttonIngresar" min="-2" pref="48" max="-2" attributes="0"/>
                   <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
-                  <Component id="jToggleButton2" min="-2" pref="48" max="-2" attributes="0"/>
+                  <Component id="buttonRegistro" min="-2" pref="48" max="-2" attributes="0"/>
                   <EmptySpace pref="54" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -233,7 +233,7 @@
             <Property name="text" type="java.lang.String" value="Usuario"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="jToggleButton2">
+        <Component class="javax.swing.JToggleButton" name="buttonRegistro">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="18" style="0"/>
@@ -241,10 +241,10 @@
             <Property name="text" type="java.lang.String" value="Registro"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonRegistroActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="contraLogin">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -255,9 +255,9 @@
             <Property name="text" type="java.lang.String" value="Login"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField2">
+        <Component class="javax.swing.JTextField" name="usuarioLogin">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usuarioLoginActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
@@ -268,7 +268,7 @@
             <Property name="text" type="java.lang.String" value="Contrase&#xf1;a"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+        <Component class="javax.swing.JToggleButton" name="buttonIngresar">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="18" style="0"/>
@@ -276,7 +276,7 @@
             <Property name="text" type="java.lang.String" value="Ingresar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonIngresarActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
