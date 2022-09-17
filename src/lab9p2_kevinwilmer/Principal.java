@@ -5,8 +5,21 @@
  */
 package lab9p2_kevinwilmer;
 
+import Clases.Idioma;
+import Clases.Juego;
+import Clases.cuentas;
 import DataBase.Dba;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.File;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import lab9.LibLab9;
 
 /**
  *
@@ -17,8 +30,24 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
+    private LibLab9 lib = new LibLab9();
+    
+
+    public void enviarCorreo() {
+        lib.sendMail(jTextArea1.getText(), jTextField3.getText(), jTextField2.getText());
+    }
+
     public Principal() {
         initComponents();
+        TraerIdiom();
+        traerJuegos();
+        actualizarcb();
+        actualizarTablaTodos();
+        actualizarTablaIdiomas();
+        lib.setProgressBar(jProgressBar1);
+        lib.colorRand(true);
+        
+        
     }
 
     /**
@@ -68,12 +97,27 @@ public class Principal extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         button_generar.setText("Generar");
+        button_generar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_generarActionPerformed(evt);
+            }
+        });
         jPanel1.add(button_generar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 140, -1));
 
         button_ejecutar.setText("Ejecutar");
@@ -172,6 +216,11 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Juego", jPanel1);
 
+        jPanel2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jPanel2FocusGained(evt);
+            }
+        });
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
@@ -179,7 +228,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 100, -1));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel5.setText("Idioma de Juego");
+        jLabel5.setText("Idioma a Juego");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 120, -1));
 
         jPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 220, 30));
@@ -191,6 +240,11 @@ public class Principal extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jButton2.setText("Crear");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 230, 40));
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -255,6 +309,24 @@ public class Principal extends javax.swing.JFrame {
         jTabbedPane1.addTab("Correo", jPanel3);
 
         jMenu1.setText("Archivos");
+
+        jMenuItem1.setText("Abrir Archivos");
+        jMenu1.add(jMenuItem1);
+
+        jMenu2.setText("Archivos Recientes");
+        jMenu1.add(jMenu2);
+
+        jMenuItem2.setText("Limpiar");
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Salir");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -280,17 +352,19 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
+        enviarCorreo();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void button_ejecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ejecutarActionPerformed
 //hace alguna kkk del crud
+
+        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
         if ((cb_query.getSelectedItem().toString()).equals("Crear")) {
-            Dba bd = new Dba("./BaseDatosLab9P2_KevinWilmer.accdb");
+            //Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
             bd.conectar();
             try {
                 bd.query.execute("insert into Juego (Categoria, Costo, Nombre)"
-                        + "VALUES ('" + categoriaOld.getText() + "', '" + Integer.parseInt(costoOld.getText()) + "', '" + nombreOld.getText()+ "')");
+                        + "VALUES ('" + categoriaOld.getText() + "', '" + Integer.parseInt(costoOld.getText()) + "', '" + nombreOld.getText() + "')");
                 bd.commit();
 
                 JOptionPane.showMessageDialog(this, "Juego Registrado", "Exito", JOptionPane.INFORMATION_MESSAGE);
@@ -299,16 +373,169 @@ public class Principal extends javax.swing.JFrame {
             }
             bd.desconectar();
         } else if ((cb_query.getSelectedItem().toString()).equals("Modificar")) {
+            bd.conectar();
+            try {
+                bd.query.execute("update Juego set Categoria='" + categoriaNew.getText() + "', Costo=" + Integer.parseInt(costoNew.getText()) + ", Nombre='" + nombreNew.getText() + "' where Nombre='" + nombreOld.getText() + "'");
+                bd.commit();
 
+                JOptionPane.showMessageDialog(this, "Juego Modificado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            bd.desconectar();
         } else if ((cb_query.getSelectedItem().toString()).equals("Eliminar")) {
+            bd.conectar();
+            try {
+                bd.query.execute("delete from Juego where Nombre='" + nombreOld.getText() + "'");
+                //+ "VALUES ('" + categoriaOld.getText() + "', '" + Integer.parseInt(costoOld.getText()) + "', '" + nombreOld.getText() + "')");
+                bd.commit();
 
+                JOptionPane.showMessageDialog(this, "Juego Eliminado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            bd.desconectar();
         } else if ((cb_query.getSelectedItem().toString()).equals("Seleccionar")) {
 
         }
-
-
+        traerJuegos();
+        actualizarcb();
+        actualizarTablaTodos();
     }//GEN-LAST:event_button_ejecutarActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
+        bd.conectar();
+        try {
+            bd.query.execute("insert into Idiomas (NombreIdioma, ID_Juegos)"
+                    + "VALUES ('" + jTextField1.getText() + "', " + ((Juego)jComboBox1.getSelectedItem()).getId()+ ")");
+            bd.commit();
+
+            JOptionPane.showMessageDialog(this, "Idioma Registrado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        bd.desconectar();
+        TraerIdiom();
+        actualizarTablaIdiomas();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jPanel2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanel2FocusGained
+        traerJuegos();
+        actualizarcb();
+
+    }//GEN-LAST:event_jPanel2FocusGained
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        actualizarTablaTodos();
+    }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void button_generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_generarActionPerformed
+        
+        JFileChooser jfc = new JFileChooser();
+        File archivo;
+        int op = jfc.showSaveDialog(this);
+        if (op == JFileChooser.APPROVE_OPTION) {
+            archivo = jfc.getSelectedFile();
+        }
+    }//GEN-LAST:event_button_generarActionPerformed
+
+    public void actualizarcb() {
+        DefaultComboBoxModel modelo = (DefaultComboBoxModel) jComboBox1.getModel();
+        modelo.removeAllElements();
+
+        for (Juego juego : j) {
+            modelo.addElement(juego);
+        }
+        jComboBox1.setModel(modelo);
+    }
+
+    public void traerJuegos() {
+        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
+        bd.conectar();
+        try {
+            //String contraseña = lib.encrypt(contraLogin.getText());
+            bd.query.execute("select * from Juego");
+            ResultSet rs = bd.query.getResultSet();
+            j = new ArrayList();
+            while (rs.next()) {
+                Juego temp = new Juego();
+                temp.setId(rs.getInt("Id"));
+                temp.setCategoria(rs.getString("Categoria"));
+                temp.setCosto(rs.getInt("Costo"));
+                temp.setNombre(rs.getString("Nombre"));
+
+                j.add(temp);
+            }
+            bd.commit();
+
+            //JOptionPane.showMessageDialog(this, "Usuario Registrado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        bd.desconectar();
+        actualizarcb();
+        actualizarTablaIdiomas();
+    }
+    
+    public void TraerIdiom() {
+        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
+        bd.conectar();
+        try {
+            //String contraseña = lib.encrypt(contraLogin.getText());
+            bd.query.execute("select * from Idiomas");
+            ResultSet rs = bd.query.getResultSet();
+            idiom = new ArrayList();
+            while (rs.next()) {
+                Idioma temp = new Idioma();
+                temp.setNombres(rs.getString("NombreIdioma"));
+                temp.setId(rs.getInt("Id"));
+
+                idiom.add(temp);
+            }
+            bd.commit();
+
+            //JOptionPane.showMessageDialog(this, "Usuario Registrado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        bd.desconectar();
+
+    }
+    
+    public void actualizarTablaTodos(){
+        DefaultTableModel m = (DefaultTableModel)jTable2.getModel();
+        m.setNumRows(0);
+        for (Juego juego : j) {
+            Object[] row = new Object[5]; 
+            row[0] = juego.getId();
+            row[1] = juego.getNombre();
+            row[2] = juego.getCategoria();
+            row[3] = juego.getCosto();
+            row[4] = juego.getI();
+            m.addRow(row);
+        }
+        
+        jTable2.setModel(m);
+    }
+    
+    public void actualizarTablaIdiomas(){
+        DefaultTableModel m = (DefaultTableModel)jTable3.getModel();
+        m.setNumRows(0);
+        for (Idioma idioma : idiom) {
+            Object[] row = new Object[2]; 
+            row[0] = idioma.getId();
+            row[1] = idioma.getNombres();
+            m.addRow(row);
+        }
+        
+        jTable3.setModel(m);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -343,7 +570,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
     }
-
+    private ArrayList<Idioma> idiom = new ArrayList();
+    private ArrayList<String> query = new ArrayList();
+    private ArrayList<Juego> j = new ArrayList();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton button_ejecutar;
     private javax.swing.JToggleButton button_generar;
@@ -364,7 +593,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

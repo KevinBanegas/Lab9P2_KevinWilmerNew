@@ -5,11 +5,14 @@
  */
 package Clases;
 
+import java.util.ArrayList;
+
 public class Juego {
     private int Id;
     private String Categoria;
     private int Costo;
     private String Nombre;
+    private ArrayList<Idioma> i = new ArrayList();
 
     public Juego() {
     }
@@ -53,9 +56,18 @@ public class Juego {
         this.Nombre = Nombre;
     }
 
+    public ArrayList<Idioma> getI() {
+        return i;
+    }
+
+    public void setI(ArrayList<Idioma> i) {
+        this.i = i;
+    }
+
+    
     @Override
     public String toString() {
-        return "Juego{" + "Id=" + Id + ", Categoria=" + Categoria + ", Costo=" + Costo + ", Nombre=" + Nombre + '}';
+        return  Nombre;
     }
 
     

@@ -8,12 +8,12 @@ package Clases;
 public class Idioma {
     private int Id;
     private String NombreIdioma;
-    private String ID_Juegos;
+    private int ID_Juegos;
 
     public Idioma() {
     }
 
-    public Idioma(int Id, String Nombres, String ID_Juegos) {
+    public Idioma(int Id, String Nombres, int ID_Juegos) {
         this.Id = Id;
         this.NombreIdioma = Nombres;
         this.ID_Juegos = ID_Juegos;
@@ -35,17 +35,17 @@ public class Idioma {
         this.NombreIdioma = Nombres;
     }
 
-    public String getID_Juegos() {
+    public int getID_Juegos() {
         return ID_Juegos;
     }
 
-    public void setID_Juegos(String ID_Juegos) {
+    public void setID_Juegos(int ID_Juegos) {
         this.ID_Juegos = ID_Juegos;
     }
 
     @Override
     public String toString() {
-        return "Juego{" + "Id=" + Id + ", Nombres=" + NombreIdioma + ", ID_Juegos=" + ID_Juegos + '}';
+        return NombreIdioma;
     }
     
     

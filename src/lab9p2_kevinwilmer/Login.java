@@ -220,7 +220,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonIngresarActionPerformed
 
     public void crearUsuario() {
-        Dba bd = new Dba("./BaseDatosLab9P2_KevinWilmer.accdb");
+        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
         bd.conectar();
         try {
             String contraseña = lib.encrypt(text_contra.getText());
@@ -237,7 +237,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     public void traerUsuario() {
-        Dba bd = new Dba("./BaseDatosLab9P2_KevinWilmer.accdb");
+        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
         bd.conectar();
         try {
             String contraseña = lib.encrypt(contraLogin.getText());
@@ -264,11 +264,9 @@ public class Login extends javax.swing.JFrame {
 
     }
     
-    public void enviarCorreo(){
-        lib.sendMail(jTextArea1().getText(), jTextField3.getText(), jTextField2.getText());
-    }
     
-    public void crearIdioma(){
+    
+    //public void crearIdioma(){
     
 
     

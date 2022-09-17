@@ -118,10 +118,9 @@ private int recientesPos = 0;
         propiedades.setProperty("mail.smtp.starttls.enable", "true");
         propiedades.setProperty("mail.smtp.port", "587");
         propiedades.setProperty("mail.smtp.auth","true");
-        
         Session sesion = Session.getDefaultInstance(propiedades);
-        String correoEnvia = "";
-        String contrasena = "";
+        String correoEnvia = "lab9kevinwilmer@gmail.com";
+        String contrasena = "ljwkuhorczhncpip";
         try{
             MimeMessage mail = new MimeMessage(sesion);
             
