@@ -15,7 +15,9 @@ import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ public class Principal extends javax.swing.JFrame {
         actualizarTablaIdiomas();
         lib.setProgressBar(jProgressBar1);
         lib.colorRand(true);
+        lib.setTables(jTable2, jTable1);
 
     }
 
@@ -386,8 +389,9 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void button_ejecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ejecutarActionPerformed
+        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
         if (jLabel9.getText() == "") {
-            Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
+            //Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
             if ((cb_query.getSelectedItem().toString()).equals("Crear")) {
                 //Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
                 bd.conectar();
@@ -460,11 +464,27 @@ public class Principal extends javax.swing.JFrame {
         } else {
             try {
                 File temp = new File(jLabel9.getText());
-                FileOutputStream cosoI = new FileInputStream(temp);
-                ObjectOutputStream cosoO = new ObjectOutputStream(cosoI);
+                FileInputStream cosoI = new FileInputStream(temp);
+                ObjectInputStream cosoO = new ObjectInputStream(cosoI);
+                String query = cosoO.readObject().toString();
+                bd.query.execute(query);
+                bd.commit();
+                ResultSet rs = bd.query.getResultSet();
+                DefaultTableModel m = (DefaultTableModel) jTable1.getModel();
+                m.setNumRows(0);
+                while (rs.next()) {
+                    Object[] row = new Object[4];
+                    row[0] = rs.getString("Nombre");
+                    row[1] = rs.getString("Categoria");
+                    row[2] = rs.getInt("Costo");
+                    m.addRow(row);
+                }
+                jTable1.setModel(m);
+                //lib.run();
                 
             } catch (Exception e) {
-
+                JOptionPane.showMessageDialog(this, "Who dis?", ". _.", JOptionPane.INFORMATION_MESSAGE);
+                e.printStackTrace();
             }
         }
         traerJuegos();
