@@ -255,7 +255,6 @@ public class Login extends javax.swing.JFrame {
                 c.add(temp);
             }
             bd.commit();
-
             JOptionPane.showMessageDialog(this, "Usuario Registrado", "Exito", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();

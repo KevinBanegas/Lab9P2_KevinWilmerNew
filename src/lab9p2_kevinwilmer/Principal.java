@@ -7,17 +7,23 @@ package lab9p2_kevinwilmer;
 
 import Clases.Idioma;
 import Clases.Juego;
+import Clases.Query;
 import Clases.cuentas;
 import DataBase.Dba;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import lab9.LibLab9;
 
@@ -76,6 +82,7 @@ public class Principal extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -97,6 +104,10 @@ public class Principal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
 
@@ -212,6 +223,9 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 500, 160));
 
+        jLabel9.setBackground(new java.awt.Color(0, 204, 204));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 500, 20));
+
         jTabbedPane1.addTab("Juego", jPanel1);
 
         jPanel2.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -309,9 +323,27 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.setText("Archivos");
 
         jMenuItem1.setText("Abrir Archivos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenu2.setText("Archivos Recientes");
+
+        jMenuItem4.setText("jMenuItem4");
+        jMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("jMenuItem5");
+        jMenu2.add(jMenuItem5);
+
+        jMenuItem6.setText("jMenuItem6");
+        jMenu2.add(jMenuItem6);
+
+        jMenuItem7.setText("jMenuItem7");
+        jMenu2.add(jMenuItem7);
+
         jMenu1.add(jMenu2);
 
         jMenuItem2.setText("Limpiar");
@@ -354,47 +386,86 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void button_ejecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ejecutarActionPerformed
-//hace alguna kkk del crud
+        if (jLabel9.getText() == "") {
+            Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
+            if ((cb_query.getSelectedItem().toString()).equals("Crear")) {
+                //Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
+                bd.conectar();
+                try {
+                    bd.query.execute("insert into Juego (Categoria, Costo, Nombre)"
+                            + "VALUES ('" + categoriaOld.getText() + "', '" + Integer.parseInt(costoOld.getText()) + "', '" + nombreOld.getText() + "')");
+                    bd.commit();
+                    JOptionPane.showMessageDialog(this, "Juego Registrado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                bd.desconectar();
+            } else if ((cb_query.getSelectedItem().toString()).equals("Modificar")) {
+                bd.conectar();
+                try {
+                    bd.query.execute("update Juego set Categoria='" + categoriaNew.getText() + "', Costo=" + Integer.parseInt(costoNew.getText()) + ", Nombre='" + nombreNew.getText() + "' where Nombre='" + nombreOld.getText() + "'");
+                    //String coso=("update Juego set Categoria='" + categoriaNew.getText() + "', Costo=" + Integer.parseInt(costoNew.getText()) + ", Nombre='" + nombreNew.getText() + "' where Nombre='" + nombreOld.getText() + "'");
+                    bd.commit();
 
-        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
-        if ((cb_query.getSelectedItem().toString()).equals("Crear")) {
-            //Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
-            bd.conectar();
-            try {
-                bd.query.execute("insert into Juego (Categoria, Costo, Nombre)"
-                        + "VALUES ('" + categoriaOld.getText() + "', '" + Integer.parseInt(costoOld.getText()) + "', '" + nombreOld.getText() + "')");
-                bd.commit();
+                    JOptionPane.showMessageDialog(this, "Juego Modificado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                bd.desconectar();
+            } else if ((cb_query.getSelectedItem().toString()).equals("Eliminar")) {
+                bd.conectar();
+                try {
+                    bd.query.execute("delete from Juego where Nombre='" + nombreOld.getText() + "'");
+                    //+ "VALUES ('" + categoriaOld.getText() + "', '" + Integer.parseInt(costoOld.getText()) + "', '" + nombreOld.getText() + "')");
+                    bd.commit();
 
-                JOptionPane.showMessageDialog(this, "Juego Registrado", "Exito", JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
-                e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Juego Eliminado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                bd.desconectar();
+            } else if ((cb_query.getSelectedItem().toString()).equals("Seleccionar")) {
+                ArrayList<Juego> temp = new ArrayList();
+                bd.conectar();
+                try {
+                    bd.query.execute("select * from Juego where Categoria='" + categoriaOld.getText() + "'");
+                    bd.commit();
+                    ResultSet rs = bd.query.getResultSet();
+                    while (rs.next()) {
+                        Juego t = new Juego();
+                        t.setId(rs.getInt("Id"));
+                        t.setCategoria(rs.getString("Categoria"));
+                        t.setCosto(rs.getInt("Costo"));
+                        t.setNombre(rs.getString("Nombre"));
+
+                        temp.add(t);
+                    }
+                    DefaultTableModel m = (DefaultTableModel) jTable1.getModel();
+                    m.setNumRows(0);
+                    for (Juego juego : temp) {
+                        Object[] row = new Object[4];
+                        row[0] = juego.getNombre();
+                        row[1] = juego.getCategoria();
+                        row[2] = juego.getCosto();
+                        row[3] = juego.getI();
+                        m.addRow(row);
+                    }
+                    jTable1.setModel(m);
+                    JOptionPane.showMessageDialog(this, "Juegos Seleccionados ", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                bd.desconectar();
             }
-            bd.desconectar();
-        } else if ((cb_query.getSelectedItem().toString()).equals("Modificar")) {
-            bd.conectar();
+        } else {
             try {
-                bd.query.execute("update Juego set Categoria='" + categoriaNew.getText() + "', Costo=" + Integer.parseInt(costoNew.getText()) + ", Nombre='" + nombreNew.getText() + "' where Nombre='" + nombreOld.getText() + "'");
-                bd.commit();
-
-                JOptionPane.showMessageDialog(this, "Juego Modificado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                File temp = new File(jLabel9.getText());
+                FileOutputStream cosoI = new FileInputStream(temp);
+                ObjectOutputStream cosoO = new ObjectOutputStream(cosoI);
+                
             } catch (Exception e) {
-                e.printStackTrace();
-            }
-            bd.desconectar();
-        } else if ((cb_query.getSelectedItem().toString()).equals("Eliminar")) {
-            bd.conectar();
-            try {
-                bd.query.execute("delete from Juego where Nombre='" + nombreOld.getText() + "'");
-                //+ "VALUES ('" + categoriaOld.getText() + "', '" + Integer.parseInt(costoOld.getText()) + "', '" + nombreOld.getText() + "')");
-                bd.commit();
 
-                JOptionPane.showMessageDialog(this, "Juego Eliminado", "Exito", JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            bd.desconectar();
-        } else if ((cb_query.getSelectedItem().toString()).equals("Seleccionar")) {
-
         }
         traerJuegos();
         actualizarcb();
@@ -433,28 +504,69 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void button_generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_generarActionPerformed
-//        JFileChooser jfc = new JFileChooser();
-//        File archivo;
-//        int op = jfc.showSaveDialog(this);
-        //if (op == JFileChooser.APPROVE_OPTION) {
-        ArrayList<Query> q = new 
+        String coso = "";
         if ((cb_query.getSelectedItem().toString()).equals("Crear")) {
-            
+            coso = "insert into Juego (Categoria, Costo, Nombre)"
+                    + "VALUES ('" + categoriaOld.getText() + "', '" + Integer.parseInt(costoOld.getText()) + "', '" + nombreOld.getText() + "')";
         } else if ((cb_query.getSelectedItem().toString()).equals("Modificar")) {
-
+            coso = ("update Juego set Categoria='" + categoriaOld.getText() + "', Costo=" + Integer.parseInt(costoOld.getText()) + ", Nombre='" + nombreOld.getText() + "' where Nombre='" + nombreOld.getText() + "'");
         } else if ((cb_query.getSelectedItem().toString()).equals("Eliminar")) {
-
+            coso = "delete from Juego where Nombre='" + nombreOld.getText() + "'";
         } else if ((cb_query.getSelectedItem().toString()).equals("Seleccionar")) {
-
+            coso = "select * from Juego where Categoria='" + categoriaOld.getText() + "'";
         }
-        //}
         JFileChooser jfc = new JFileChooser();
-        File archivo;
-        int op = jfc.showSaveDialog(this);
-        if (op == JFileChooser.APPROVE_OPTION) {
+        FileNameExtensionFilter filtro
+                = new FileNameExtensionFilter(
+                        "Archivo Query", "queer");
+        jfc.addChoosableFileFilter(filtro);
+        int seleccion = jfc.showSaveDialog(this);
+        //mostrar la ventana de dialogo      
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        if (seleccion == JFileChooser.APPROVE_OPTION) {//si preciono okay
+            try {
+                File fichero = null;//crear instancia file nula, la cual se le agregara una extns
+                fichero = jfc.getSelectedFile();
+                fw = new FileWriter(fichero);//wilewritter a archivo
+                bw = new BufferedWriter(fw);//bufferded writter a el canar fw
+                //ArchivosI.add(new Archivo(fecha(), fichero, NewJFrame.Uactual.getID()));
+                bw.write(coso);//escribe el contenido de el area de tecto
+                bw.flush(); //flashea, vacia de ram a rom  
+                lib.addRecent(fichero.getAbsolutePath());
+                lib.saveRecent();
+                JOptionPane.showMessageDialog(this,
+                        "Archivo guardado exitosamente");
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_button_generarActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        JFileChooser jfc = new JFileChooser();
+        FileNameExtensionFilter filtro
+                = new FileNameExtensionFilter(
+                        "Archivos Query", "queer");
+        jfc.addChoosableFileFilter(filtro);
+        int seleccion = jfc.showOpenDialog(this);  //mostrar la ventana de dialogo      
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {//si preciono okay
+            try {
+                File fichero = null;//crear instancia file nula, la cual se le agregara una extns
+                fichero = jfc.getSelectedFile();
+                lib.addRecent(fichero.getAbsolutePath());
+                lib.saveRecent();
+                jLabel9.setText(fichero.getAbsolutePath());
+//                JOptionPane.showMessageDialog(this,
+//                        "Archivo guardado exitosamente");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     public void actualizarcb() {
         DefaultComboBoxModel modelo = (DefaultComboBoxModel) jComboBox1.getModel();
@@ -604,12 +716,17 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
