@@ -389,7 +389,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void button_ejecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ejecutarActionPerformed
-        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
+        Dba bd = new Dba("./BaseDatosLab9P2_KevinWilmer.accdb");
         if (jLabel9.getText() == "") {
             //Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
             if ((cb_query.getSelectedItem().toString()).equals("Crear")) {
@@ -464,10 +464,11 @@ public class Principal extends javax.swing.JFrame {
         } else {
             try {
                 File temp = new File(jLabel9.getText());
+                jLabel9.setText("");
                 FileInputStream cosoI = new FileInputStream(temp);
                 ObjectInputStream cosoO = new ObjectInputStream(cosoI);
-                String query = cosoO.readObject().toString();
-                bd.query.execute(query);
+                String query1 = cosoO.readObject().toString();
+                bd.query.execute(query1);
                 bd.commit();
                 ResultSet rs = bd.query.getResultSet();
                 DefaultTableModel m = (DefaultTableModel) jTable1.getModel();
@@ -493,7 +494,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_button_ejecutarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
+        Dba bd = new Dba("./BaseDatosLab9P2_KevinWilmer.accdb");
         bd.conectar();
         try {
             bd.query.execute("insert into Idiomas (NombreIdioma, ID_Juegos)"
@@ -599,7 +600,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void traerJuegos() {
-        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
+        Dba bd = new Dba("./BaseDatosLab9P2_KevinWilmer.accdb");
         bd.conectar();
         try {
             //String contraseña = lib.encrypt(contraLogin.getText());
@@ -627,7 +628,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void TraerIdiom() {
-        Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
+        Dba bd = new Dba("./BaseDatosLab9P2_KevinWilmer.accdb");
         bd.conectar();
         try {
             //String contraseña = lib.encrypt(contraLogin.getText());
