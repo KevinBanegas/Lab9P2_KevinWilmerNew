@@ -31,7 +31,6 @@ public class Principal extends javax.swing.JFrame {
      * Creates new form Principal
      */
     private LibLab9 lib = new LibLab9();
-    
 
     public void enviarCorreo() {
         lib.sendMail(jTextArea1.getText(), jTextField3.getText(), jTextField2.getText());
@@ -46,8 +45,7 @@ public class Principal extends javax.swing.JFrame {
         actualizarTablaIdiomas();
         lib.setProgressBar(jProgressBar1);
         lib.colorRand(true);
-        
-        
+
     }
 
     /**
@@ -408,7 +406,7 @@ public class Principal extends javax.swing.JFrame {
         bd.conectar();
         try {
             bd.query.execute("insert into Idiomas (NombreIdioma, ID_Juegos)"
-                    + "VALUES ('" + jTextField1.getText() + "', " + ((Juego)jComboBox1.getSelectedItem()).getId()+ ")");
+                    + "VALUES ('" + jTextField1.getText() + "', " + ((Juego) jComboBox1.getSelectedItem()).getId() + ")");
             bd.commit();
 
             JOptionPane.showMessageDialog(this, "Idioma Registrado", "Exito", JOptionPane.INFORMATION_MESSAGE);
@@ -435,12 +433,26 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void button_generarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_generarActionPerformed
-        
+//        JFileChooser jfc = new JFileChooser();
+//        File archivo;
+//        int op = jfc.showSaveDialog(this);
+        //if (op == JFileChooser.APPROVE_OPTION) {
+        ArrayList<Query> q = new 
+        if ((cb_query.getSelectedItem().toString()).equals("Crear")) {
+            
+        } else if ((cb_query.getSelectedItem().toString()).equals("Modificar")) {
+
+        } else if ((cb_query.getSelectedItem().toString()).equals("Eliminar")) {
+
+        } else if ((cb_query.getSelectedItem().toString()).equals("Seleccionar")) {
+
+        }
+        //}
         JFileChooser jfc = new JFileChooser();
         File archivo;
         int op = jfc.showSaveDialog(this);
         if (op == JFileChooser.APPROVE_OPTION) {
-            archivo = jfc.getSelectedFile();
+
         }
     }//GEN-LAST:event_button_generarActionPerformed
 
@@ -481,7 +493,7 @@ public class Principal extends javax.swing.JFrame {
         actualizarcb();
         actualizarTablaIdiomas();
     }
-    
+
     public void TraerIdiom() {
         Dba bd = new Dba("../BaseDatosLab9P2_KevinWilmer.accdb");
         bd.conectar();
@@ -506,12 +518,12 @@ public class Principal extends javax.swing.JFrame {
         bd.desconectar();
 
     }
-    
-    public void actualizarTablaTodos(){
-        DefaultTableModel m = (DefaultTableModel)jTable2.getModel();
+
+    public void actualizarTablaTodos() {
+        DefaultTableModel m = (DefaultTableModel) jTable2.getModel();
         m.setNumRows(0);
         for (Juego juego : j) {
-            Object[] row = new Object[5]; 
+            Object[] row = new Object[5];
             row[0] = juego.getId();
             row[1] = juego.getNombre();
             row[2] = juego.getCategoria();
@@ -519,23 +531,23 @@ public class Principal extends javax.swing.JFrame {
             row[4] = juego.getI();
             m.addRow(row);
         }
-        
+
         jTable2.setModel(m);
     }
-    
-    public void actualizarTablaIdiomas(){
-        DefaultTableModel m = (DefaultTableModel)jTable3.getModel();
+
+    public void actualizarTablaIdiomas() {
+        DefaultTableModel m = (DefaultTableModel) jTable3.getModel();
         m.setNumRows(0);
         for (Idioma idioma : idiom) {
-            Object[] row = new Object[2]; 
+            Object[] row = new Object[2];
             row[0] = idioma.getId();
             row[1] = idioma.getNombres();
             m.addRow(row);
         }
-        
+
         jTable3.setModel(m);
     }
-    
+
     /**
      * @param args the command line arguments
      */
